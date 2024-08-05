@@ -40,3 +40,13 @@ config2 = Configuration.instance
 puts config2.get_setting('theme') # Output: dark
 
 puts config.object_id == config2.object_id # Output: true
+
+# Testing Thread Safety
+threads = 10.times.map do
+  Thread.new do
+    config3 = Configuration.instance
+    puts config3.object_id
+  end
+end
+
+threads.each(&:join)
